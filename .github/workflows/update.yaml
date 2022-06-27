@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
       - uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
       - run: go run .
-      - uses: stefanzweifel/git-auto-commit-action@49620cd3ed21ee620a48530e81dba0d139c9cb80
+      - uses: stefanzweifel/git-auto-commit-action@789f58e41a0d5e3af8438b58272ab02db9438f80
