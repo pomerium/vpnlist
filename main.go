@@ -82,18 +82,26 @@ func writeFile(w io.Writer, name string, ips []string) error {
 		return zw.Close()
 	case ".csv":
 		cw := csv.NewWriter(w)
-		cw.Write([]string{"id"})
+		err := cw.Write([]string{"id"})
+		if err != nil {
+			return err
+		}
 		for _, ip := range ips {
-			cw.Write([]string{ip})
+			err = cw.Write([]string{ip})
+			if err != nil {
+				return err
+			}
 		}
 		cw.Flush()
 		return cw.Error()
 	case ".json":
-		var records []interface{}
+		var records []any
 		for _, ip := range ips {
-			records = append(records, map[string]interface{}{"id": ip})
+			records = append(records, map[string]any{"id": ip})
 		}
-		return json.NewEncoder(w).Encode(records)
+		e := json.NewEncoder(w)
+		e.SetIndent("", "  ")
+		return e.Encode(records)
 	default:
 		return fmt.Errorf("unsupported file extension: %s", ext)
 	}
