@@ -14,7 +14,7 @@ jobs:
           token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
 
       - name: Setup go
-        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417
         with:
           go-version-file: .tool-versions
 
@@ -22,7 +22,7 @@ jobs:
         run: make generate
 
       - name: Commit
-        uses: devops-infra/action-commit-push@8a2d9d73c3f506468129be2e4409e60dbed70357
+        uses: devops-infra/action-commit-push@f01d24007c469639f252dc88109ef96bfbff33db
         with:
           github_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
           commit_message: "update"
