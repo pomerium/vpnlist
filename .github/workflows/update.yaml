@@ -7,11 +7,20 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - name: Create CI token
+        id: ci-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
+        with:
+          client-id: ${{ secrets.POMERIUM_CI_APP_CLIENT_ID }}
+          private-key: ${{ secrets.POMERIUM_CI_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-workflows: write
+
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
+          token: ${{ steps.ci-token.outputs.token }}
 
       - name: Setup go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
@@ -24,5 +33,5 @@ jobs:
       - name: Commit
         uses: devops-infra/action-commit-push@f066ea8e19660de57d3d3a4a0b9d294ea2612e20
         with:
-          github_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
+          github_token: ${{ steps.ci-token.outputs.token }}
           commit_message: "update"
